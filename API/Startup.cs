@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Core.Interfaces;
+using AutoMapper;
+using API.Helpers;
 
 namespace API
 {
@@ -32,6 +34,10 @@ namespace API
         {
             
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)) );
+            services.AddAutoMapper(typeof(MappingProfiles) );
+
+
             services.AddControllers();
 
              services.AddDbContext<StoreContext>(x =>
@@ -51,6 +57,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
